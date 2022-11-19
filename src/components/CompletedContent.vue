@@ -13,11 +13,6 @@
                 >
                     <i class="fa-regular fa-trash-can iconDelete"></i>
                 </span>
-                <!-- <font-awesome-icon 
-                    icon="fa-regular fa-trash-can" 
-                    class="position-absolute top-50 end-0 translate-middle-y"
-                    @click="delList($event)" 
-                /> -->
             </div>
         </div>
         <div v-show="todoCompleted.length !== 0">
