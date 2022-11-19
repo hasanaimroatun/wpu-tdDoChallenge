@@ -65,7 +65,7 @@
             />
         </keep-alive>
 
-        <!-- <div v-show="activeTab === 'AllContent'">
+        <div v-show="activeTab === 'AllContent'">
             <div v-for="todo in todoAll" :key="todo">
                 <div class="form-check d-flex position-relative tList">
                     <input class="form-check-input inputListAll" 
@@ -81,7 +81,7 @@
                     </label>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="createdBy">created by <a href="#">hasanaimroatun</a> - devChallenges.io</div>
     </div>
@@ -166,13 +166,13 @@ import CompletedContent from './CompletedContent.vue'
 
                     this.addFilter()
                     
-                    let string = e.target.nextSibling.textContent
-                    let findObjk = this.todoAll[this.todoAll.findIndex(x => x.data == string)]
+                    let string = e.target.nextSibling.innerHTML
+                    let findObjct = this.todoAll[this.todoAll.findIndex(x => x.data == string)]
 
                     let lList = document.getElementsByClassName('labelListAll')[this.todoAll.findIndex(x => x.data == string)]
                     let checkList = document.getElementsByClassName('inputListAll')[this.todoAll.findIndex(x => x.data == string)]
                     
-                    if(findObjk.status == 'completed') {
+                    if(findObjct.status == 'completed') {
                         lList.classList.add(this.withDecoration)
                         checkList.checked = true
                     }
