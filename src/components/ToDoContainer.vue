@@ -37,11 +37,12 @@
         <div class="inputContainer position-absolute start-50 translate-middle">
             <input 
                 type="text" 
-                class="form-control" 
+                class="form-control tInput" 
                 placeholder="add details" 
                 aria-label="add details" 
                 aria-describedby="button-addon"
                 v-model="todoData"
+                @keyup.enter="addTodo"
             >
             <button 
                 class="btn btn-primary" 
@@ -53,8 +54,35 @@
             </button>
         </div>
         <keep-alive>
-            <component :is='activeTab' class="content"/>
+            <component :is='activeTab' class="content" 
+                :todoContainer='todoContainer'
+                :todoAll='todoAll'
+                :todoOngoing='todoOngoing' 
+                :todoCompleted='todoCompleted'
+                :addDecoration='addDecoration'
+                :delList='delList'
+                :delAllList='delAllList'
+            />
         </keep-alive>
+
+        <!-- <div v-show="activeTab === 'AllContent'">
+            <div v-for="todo in todoAll" :key="todo">
+                <div class="form-check d-flex position-relative tList">
+                    <input class="form-check-input inputListAll" 
+                        type="checkbox" 
+                        id="flexCheckDefault" 
+                        @click="addDecoration($event)"
+                    >
+                    <label 
+                        class="form-check-label labelListAll" 
+                        for="flexCheckDefault"
+                    >
+                        {{todo.data}}
+                    </label>
+                </div>
+            </div>
+        </div> -->
+
         <div class="createdBy">created by <a href="#">hasanaimroatun</a> - devChallenges.io</div>
     </div>
 </template>
@@ -71,7 +99,7 @@ import CompletedContent from './CompletedContent.vue'
             ActiveContent,
             CompletedContent,
         },
-        data() {
+        data() {            
             return {
                 activeTab: 'AllContent',
                 bStyle1: {
@@ -84,29 +112,96 @@ import CompletedContent from './CompletedContent.vue'
                     borderBottom: ''
                 },
                 todoData: '',
-                todoContainer: []
+                todoContainer: [],
+                todoAll: [],
+                todoOngoing: [],
+                todoCompleted: [],
+                withDecoration: 'text-decoration-line-through',
+                displaySetting: 'd-none'
             }
         },
         mounted() {
             this.bStyle1.borderBottom = '4px solid #2F80ED',
             this.bStyle2.borderBottom = '4px solid transparent',
-            this.bStyle3.borderBottom = '4px solid transparent'
+            this.bStyle3.borderBottom = '4px solid transparent',
+
+            document.getElementsByClassName('tInput')[0].focus()
         },
         updated() {
             this.activeTab == 'AllContent' ? this.bStyle1.borderBottom = '4px solid #2F80ED' : this.bStyle1.borderBottom = '4px solid transparent',
             this.activeTab == 'ActiveContent' ? this.bStyle2.borderBottom = '4px solid #2F80ED' : this.bStyle2.borderBottom = '4px solid transparent',
             this.activeTab == 'CompletedContent' ? this.bStyle3.borderBottom = '4px solid #2F80ED' : this.bStyle3.borderBottom = '4px solid transparent'
+
         },
         methods: {
+            addFilter() {
+                this.todoCompleted = this.todoContainer.filter(t => {
+                    return t.status == 'completed'
+                })
+
+                this.todoOngoing = this.todoContainer.filter(t => {
+                    return t.status == 'ongoing'
+                })
+
+                this.todoAll = this.todoContainer.filter(t => {
+                    return t.status !== 'deleted'
+                })
+            },
             addTodo() {
-                this.todoContainer.push(this.todoData)
-                console.log(this.todoContainer)
-            }
+                this.todoContainer.push({data:this.todoData, status:'ongoing'})
+                this.addFilter()
+            },
+            addDecoration(e) {
+                e.target.nextSibling.classList.toggle(this.withDecoration)
+
+                let string = e.target.nextSibling.innerHTML
+                let findObj = this.todoContainer[this.todoContainer.findIndex(x => x.data == string)]
+
+                setTimeout(() => {
+                    if(e.target.nextSibling.classList.contains(this.withDecoration)) {
+                        findObj.status = 'completed'
+                    } else {
+                        findObj.status = 'ongoing'
+                    } 
+
+                    this.addFilter()
+                    
+                    let string = e.target.nextSibling.textContent
+                    let findObjk = this.todoAll[this.todoAll.findIndex(x => x.data == string)]
+
+                    let lList = document.getElementsByClassName('labelListAll')[this.todoAll.findIndex(x => x.data == string)]
+                    let checkList = document.getElementsByClassName('inputListAll')[this.todoAll.findIndex(x => x.data == string)]
+                    
+                    if(findObjk.status == 'completed') {
+                        lList.classList.add(this.withDecoration)
+                        checkList.checked = true
+                    }
+                }, 1000);
+
+            },
+            delList(e) {
+                let string = e.currentTarget.previousSibling.textContent
+                let findObject = this.todoContainer[this.todoContainer.findIndex(x => x.data == string)]
+                findObject.status = 'deleted'
+
+                this.addFilter()
+            },
+            delAllList() {
+                const listCompleted = document.getElementsByClassName('labelList')
+
+                for(const l of listCompleted) {
+                    let findObj = this.todoContainer[this.todoContainer.findIndex(x => x.data == l.textContent)]
+                    findObj.status = 'deleted'
+                }
+                
+                this.addFilter()
+            },
+    
         }
     }
 </script>
 
-<style scoped>
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@700&display=swap');
 
 .title {
@@ -147,18 +242,19 @@ import CompletedContent from './CompletedContent.vue'
     gap: 25px;
 }
 
-input {
+.tInput {
     width: 476px;
     height: 56px;
     border: 1px solid #BDBDBD;
 }
 
-input,
-input::placeholder {
+.tInput,
+.tInput::placeholder {
     color: #828282;
 }
 
-input:focus {
+.inputContainer input:focus,
+.tList input:focus {
     outline: none;
     box-shadow: none;
 }
@@ -168,6 +264,12 @@ button {
     background-color: #2F80ED;
     border: 1px solid #2F80ED;
     color: white;
+}
+
+.tList {
+    gap: 10px;
+    width: 610px;
+    margin: 15px auto;
 }
 
 .content {
@@ -201,21 +303,23 @@ button {
         width: 150px;
     }
 
-    .inputContainer {
+    .inputContainer,
+    .tList {
         width: 460px;
     }
 
-    input {
+    .tInput {
         width: 326px;
     }
 }
 
 @media screen and (max-width: 600px) {
-        .navbar li {
+    .navbar li {
         width: 110px;
     }
 
-    .inputContainer {
+    .inputContainer,
+    .tList {
         width: 330px;
     }
 
@@ -223,7 +327,7 @@ button {
         gap: 10px;
     }
 
-    input {
+    .tInput {
         width: 256px;
     }
 
