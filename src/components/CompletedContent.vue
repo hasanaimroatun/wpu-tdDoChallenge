@@ -15,11 +15,14 @@
                 </span>
             </div>
         </div>
-        <div v-show="todoCompleted.length !== 0">
+        <div 
+            v-show="todoCompleted.length !== 0" 
+            class="position-absolute start-50 translate-middle mt-4 d-flex justify-content-end completeContentContainer" 
+        >
             <button 
                 type="button" 
                 class="btn btn-danger mt-4 bDeleteAll" 
-                :style="{width: 'fit-content', marginLeft: '500px'}"
+                :style="{width: 'fit-content'}"
                 @click="delAllList()"
             >
                 <font-awesome-icon icon="fa-regular fa-trash-can" class="me-2"/>
@@ -32,15 +35,24 @@
 <script>
     export default {
         name: 'Completed-content',
-        props: ['todoCompleted', 'delList', 'delAllList'],
-        data() {
-            return {
-                
-            }
-        }
+        props: ['todoCompleted', 'delList', 'delAllList']
     }
 </script>
 
 <style scoped>
+.completeContentContainer {
+    width: 610px;
+}
 
+@media screen and (max-width: 995px) {
+    .completeContentContainer {
+        width: 460px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .completeContentContainer {
+        width: 330px;
+    }
+}
 </style>
