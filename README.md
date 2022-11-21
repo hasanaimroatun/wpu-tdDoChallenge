@@ -6,7 +6,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://{your-demo-link.your-domain}">
+    <a href="https://todo-app-challenge-003.web.app">
       Demo
     </a>
     <span> | </span>
@@ -35,9 +35,9 @@
 
 ## Overview
 
-![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
+![screenshot](https://github.com/hasanaimroatun/wpu-tdDoChallenge/blob/master/src/assets/2022-11-21.png)
 
-You can see my demo on . I have have interest in web development since a few months ago. I have learned css, html, javascript, react, boostrap, vue, and sass from youtube and few website. I hope with more learn and practice from devChallenges can improve my skill in developing website.
+You can see my demo on https://todo-app-challenge-003.web.app. I have have interest in web development since a few months ago. I have learned css, html, javascript, react, boostrap, vue, and sass from youtube and few website. I hope with more learn and practice from devChallenges can improve my skill in developing website.
 
 ### Built With
 
