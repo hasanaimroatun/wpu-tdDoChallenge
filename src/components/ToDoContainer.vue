@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <div class="createdBy">created by <a href="#">hasanaimroatun</a> - devChallenges.io</div>
+        <div class="createdBy">created by <a href="https://github.com/hasanaimroatun/wpu-tdDoChallenge">hasanaimroatun</a> - devChallenges.io</div>
     </div>
 </template>
 
@@ -117,7 +117,7 @@ import CompletedContent from './CompletedContent.vue'
                 todoOngoing: [],
                 todoCompleted: [],
                 withDecoration: 'text-decoration-line-through',
-                displaySetting: 'd-none'
+                displaySetting: 'd-none',
             }
         },
         mounted() {
@@ -270,6 +270,10 @@ button {
     gap: 10px;
     width: 610px;
     margin: 15px auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #000000;
 }
 
 .content {
