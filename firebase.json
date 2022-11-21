@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "todo-app-challenge-003",
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
