@@ -11,23 +11,22 @@
                     class="position-absolute top-50 end-0 translate-middle-y"  
                     @click="delList($event)"
                 >
-                    <i class="fa-regular fa-trash-can iconDelete"></i>
+                    <i class="fa-regular fa-trash-can iconDelete" :style="{color: '#bdbdbd'}"></i>
                 </span>
             </div>
         </div>
-        <div 
-            v-show="todoCompleted.length !== 0" 
-            class="position-absolute start-50 translate-middle mt-4 d-flex justify-content-end completeContentContainer" 
-        >
-            <button 
-                type="button" 
-                class="btn btn-danger mt-4 bDeleteAll" 
-                :style="{width: 'fit-content'}"
-                @click="delAllList()"
-            >
-                <font-awesome-icon icon="fa-regular fa-trash-can" class="me-2"/>
-                <span>Delete All</span>
-            </button>
+        <div v-show="todoCompleted.length !== 0">
+            <div  class="position-absolute start-50 translate-middle mt-4 d-flex justify-content-end completeContentContainer">
+                <button 
+                    type="button" 
+                    class="btn btn-danger mt-4 bDeleteAll" 
+                    :style="{width: 'fit-content'}"
+                    @click="delAllList()"
+                >
+                    <font-awesome-icon icon="fa-regular fa-trash-can" class="me-2"/>
+                    <span>Delete All</span>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -42,6 +41,13 @@
 <style scoped>
 .completeContentContainer {
     width: 610px;
+}
+
+button span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14.63px;
 }
 
 @media screen and (max-width: 995px) {
