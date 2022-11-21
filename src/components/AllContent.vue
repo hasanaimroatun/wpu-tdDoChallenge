@@ -1,6 +1,6 @@
 <template>
     <div>
-        All Content
+        
     </div>
 </template>
 

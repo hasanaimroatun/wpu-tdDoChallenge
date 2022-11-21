@@ -1,6 +1,5 @@
 <template>
     <div>
-        Active Content
         <div v-for="todo in todoOngoing" :key="todo">
             <div class="form-check d-flex position-relative tList">
                 <input class="form-check-input" type="checkbox" id="flexCheckDefault" @click="addDecoration($event)">

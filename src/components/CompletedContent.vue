@@ -1,6 +1,5 @@
 <template>
     <div>
-        Completed Content
         <div v-for="todo in todoCompleted" :key="todo">
             <div class="form-check d-flex position-relative tList">
                 <input class="form-check-input" type="checkbox" id="flexCheckDefault" checked>
