@@ -99,7 +99,8 @@ import CompletedContent from './CompletedContent.vue'
             ActiveContent,
             CompletedContent,
         },
-        data() {            
+        data() {       
+            let getData = JSON.parse(localStorage.getItem('dataTodo'))     
             return {
                 activeTab: 'AllContent',
                 bStyle1: {
@@ -118,6 +119,7 @@ import CompletedContent from './CompletedContent.vue'
                 todoCompleted: [],
                 withDecoration: 'text-decoration-line-through',
                 displaySetting: 'd-none',
+                getData,
             }
         },
         mounted() {
@@ -126,6 +128,9 @@ import CompletedContent from './CompletedContent.vue'
             this.bStyle3.borderBottom = '4px solid transparent',
 
             document.getElementsByClassName('tInput')[0].focus()
+
+            this.getData == null ? this.todoContainer = [] : this.todoContainer = this.getData  
+            this.addFilter()          
         },
         updated() {
             this.activeTab == 'AllContent' ? this.bStyle1.borderBottom = '4px solid #2F80ED' : this.bStyle1.borderBottom = '4px solid transparent',
@@ -134,22 +139,32 @@ import CompletedContent from './CompletedContent.vue'
 
         },
         methods: {
+            saveToLocal() {
+                localStorage.setItem('dataTodo', JSON.stringify(this.todoAll))
+            },
             addFilter() {
-                this.todoCompleted = this.todoContainer.filter(t => {
-                    return t.status == 'completed'
-                })
-
-                this.todoOngoing = this.todoContainer.filter(t => {
-                    return t.status == 'ongoing'
-                })
-
                 this.todoAll = this.todoContainer.filter(t => {
                     return t.status !== 'deleted'
                 })
+
+                this.todoCompleted = this.todoAll.filter(t => {
+                    return t.status == 'completed'
+                })
+
+                this.todoOngoing = this.todoAll.filter(t => {
+                    return t.status == 'ongoing'
+                })
             },
             addTodo() {
-                this.todoContainer.push({data:this.todoData, status:'ongoing'})
+                let fObj = this.todoAll[this.todoAll.findIndex(x => x.data == this.todoData)]
+                if(fObj == undefined) {
+                    this.todoContainer.push({data:this.todoData, status:'ongoing'})
+                } else {
+                    alert('Your list already added!')
+                }
+                
                 this.addFilter()
+                this.saveToLocal()
             },
             addDecoration(e) {
                 e.target.nextSibling.classList.toggle(this.withDecoration)
@@ -165,6 +180,7 @@ import CompletedContent from './CompletedContent.vue'
                     } 
 
                     this.addFilter()
+                    this.saveToLocal()
                     
                     let string = e.target.nextSibling.innerHTML
                     let findObjct = this.todoAll[this.todoAll.findIndex(x => x.data == string)]
@@ -185,6 +201,7 @@ import CompletedContent from './CompletedContent.vue'
                 findObject.status = 'deleted'
 
                 this.addFilter()
+                this.saveToLocal()
             },
             delAllList() {
                 const listCompleted = document.getElementsByClassName('labelList')
@@ -195,6 +212,7 @@ import CompletedContent from './CompletedContent.vue'
                 }
                 
                 this.addFilter()
+                this.saveToLocal()
             },
     
         }
